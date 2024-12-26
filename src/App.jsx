@@ -5,6 +5,10 @@ import "./App.css";
 function App() {
   const [todos, setTodos] = useState([]);
   const [inputValue, setInputValue] = useState("");
+
+  const handleAdd = () => {
+    console.log("add");
+  };
   return (
     <div className="container">
       <h1>To-do -List</h1>
@@ -15,6 +19,9 @@ function App() {
           onChange={(e) => setInputValue(e.target.value)}
           placeholder="Add a new todo"
         />
+      </div>
+      <div>
+        <button onClick={handleAdd}>Add</button>
       </div>
     </div>
   );
