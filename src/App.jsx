@@ -3,11 +3,15 @@ import { useState } from "react";
 import "./App.css";
 
 function App() {
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState(["shopping", "cleaning"]);
   const [inputValue, setInputValue] = useState("");
 
   const handleAdd = () => {
-    console.log("add");
+    // console.log("add");
+    if (inputValue !== "") {
+      setTodos([...todos, inputValue]);
+      setInputValue("");
+    }
   };
   return (
     <div className="container">
@@ -22,6 +26,12 @@ function App() {
       </div>
       <div>
         <button onClick={handleAdd}>Add</button>
+      </div>
+
+      <div>
+        {todos.map((todo) => (
+          <div>{todo}</div>
+        ))}
       </div>
     </div>
   );
