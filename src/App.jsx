@@ -7,9 +7,10 @@ function App() {
   const [inputValue, setInputValue] = useState("");
 
   const handleAdd = () => {
-    // console.log("add");
+    // console.log("Current input:", inputValue);
     if (inputValue !== "") {
       setTodos([...todos, inputValue]);
+
       setInputValue("");
     }
   };
@@ -23,14 +24,16 @@ function App() {
           onChange={(e) => setInputValue(e.target.value)}
           placeholder="Add a new todo"
         />
-      </div>
-      <div>
+
         <button onClick={handleAdd}>Add</button>
       </div>
 
-      <div>
-        {todos.map((todo) => (
-          <div>{todo}</div>
+      <div className="todo-list">
+        {console.log("Rendering todos:", todos)}
+        {todos.map((todo, index) => (
+          <div key={index} className="todo-item">
+            {todo}
+          </div>
         ))}
       </div>
     </div>
