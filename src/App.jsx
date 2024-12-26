@@ -14,6 +14,11 @@ function App() {
       setInputValue("");
     }
   };
+  const handleDelete = (indexToDelete) => {
+    const newTodos = todos.filter((todo, index) => index !== indexToDelete);
+    setTodos(newTodos);
+  };
+
   return (
     <div className="container">
       <h1>To-do -List</h1>
@@ -33,6 +38,9 @@ function App() {
         {todos.map((todo, index) => (
           <div key={index} className="todo-item">
             {todo}
+            <button onClick={() => handleDelete(index)} className="delete-btn">
+              Delete
+            </button>
           </div>
         ))}
       </div>
