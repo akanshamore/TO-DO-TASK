@@ -6,9 +6,9 @@ function App() {
   const [todos, setTodos] = useState([]);
   const [inputValue, setInputValue] = useState("");
   return (
-    <div>
+    <div className="container">
       <h1>To-do -List</h1>
-      <div>
+      <div className="todo-form">
         <input
           type="text"
           value={inputValue}
