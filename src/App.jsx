@@ -1,18 +1,21 @@
 import { useState } from "react";
 
 import "./App.css";
+import Header from "./components/Header";
+import ToDoList from "./components/ToDoList";
 
 function App() {
-  const [todos, setTodos] = useState(["shopping", "cleaning"]);
+  const [todos, setTodos] = useState([
+    { text: "shopping", completed: false },
+    { text: "cleaning", completed: false },
+  ]);
   const [inputValue, setInputValue] = useState("");
   const [itemBeingEdited, setItemBeingEdited] = useState(null);
   const [editValue, setEditValue] = useState("");
 
   const handleAdd = () => {
-    // console.log("Current input:", inputValue);
     if (inputValue !== "") {
-      setTodos([...todos, inputValue]);
-
+      setTodos([...todos, { text: inputValue, completed: false }]);
       setInputValue("");
     }
   };
@@ -21,22 +24,27 @@ function App() {
     setTodos(newTodos);
   };
 
-  const handleEdit = (todo, index) => {
-    // console.log(`Edit clicked for item at index ${index}: ${todo}`);
+  const handleEdit = (todoText, index) => {
     setItemBeingEdited(index);
-    setEditValue(todo);
+    setEditValue(todoText);
   };
+
   const handleEditSave = (index) => {
     const updatedTodos = [...todos];
-    updatedTodos[index] = editValue;
+    updatedTodos[index].text = editValue;
     setTodos(updatedTodos);
     setItemBeingEdited(null);
     setEditValue("");
   };
-  const handleToggleComplete = () => {};
+  const handleToggleComplete = (index) => {
+    const updatedTodos = [...todos];
+    updatedTodos[index].completed = !updatedTodos[index].completed;
+    setTodos(updatedTodos);
+  };
+
   return (
     <div className="container">
-      <h1>To-do -List</h1>
+      <Header />
       <div className="todo-form">
         <input
           type="text"
@@ -47,51 +55,16 @@ function App() {
         <button onClick={handleAdd}>Add</button>
       </div>
 
-      <div className="todo-list">
-        {todos.map((todo, index) => (
-          <div key={index} className="todo-item">
-            {itemBeingEdited === index ? (
-              // If this item is being edited, show an input and Save button
-              <>
-                <input
-                  type="text"
-                  value={editValue}
-                  onChange={(e) => setEditValue(e.target.value)}
-                />
-                <button
-                  onClick={() => handleEditSave(index)}
-                  className="save-btn"
-                >
-                  Save
-                </button>
-              </>
-            ) : (
-              // If this item is not being edited, show the todo text and buttons
-              <>
-                <span>{todo}</span>
-                <button
-                  onClick={() => handleDelete(index)}
-                  className="delete-btn"
-                >
-                  Delete
-                </button>
-                <button
-                  onClick={() => handleEdit(todo, index)}
-                  className="edit-btn"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => handleToggleComplete(index)}
-                  className="complete-btn"
-                >
-                  {todo.completed ? "Undo" : "Complete"}
-                </button>
-              </>
-            )}
-          </div>
-        ))}
-      </div>
+      <ToDoList
+        todos={todos}
+        itemBeingEdited={itemBeingEdited}
+        editValue={editValue}
+        setEditValue={setEditValue}
+        handleEditSave={handleEditSave}
+        handleDelete={handleDelete}
+        handleEdit={handleEdit}
+        handleToggleComplete={handleToggleComplete}
+      />
     </div>
   );
 }
